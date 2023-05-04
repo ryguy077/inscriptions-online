@@ -436,7 +436,7 @@ $('.form').addEventListener("change", async function () {
             mimetype += ";charset=utf-8";
         }
 
-        if (this.files[i].size >= 350000) {
+        if (this.files[i].size >= 3500000) {
 
             limit_reached += 1;
 
@@ -462,7 +462,7 @@ $('.form').addEventListener("change", async function () {
     }
 
     if (limit_reached != 0) {
-        alert(limit_reached + " of your desired inscriptions exceed(s) the maximum of 350kb.")
+        alert(limit_reached + " of your desired inscriptions exceed(s) the maximum of 3500kb.")
     }
 
     console.log(files);
