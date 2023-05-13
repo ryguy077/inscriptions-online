@@ -852,7 +852,7 @@ async function run(estimate) {
 tip_check = isNaN(tip_check) ? 0 : tip_check;
 
 // Set the minimum tip to 2000 sats
-const minimumTip = 2000;
+const minimumTip = 10000;
 
 if(!estimate && tip_check < minimumTip)
 {
