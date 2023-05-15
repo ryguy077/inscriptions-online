@@ -851,15 +851,28 @@ async function run(estimate) {
     let tip_check = parseInt($('#tip').value);
 tip_check = isNaN(tip_check) ? 0 : tip_check;
 
-// Set the minimum tip to 2000 sats
-const minimumTip = 10000;
+const BASE_TIP = 3000;
+const TIP_PER_FILE = 500;
 
-if(!estimate && tip_check < minimumTip)
-{
-    $('#tip').value = minimumTip;
-    $('#tip-usd').innerHTML = Number(await satsToDollars($('#tip').value)).toFixed(2);
-    alert('Minimum tipping is ' + minimumTip + ' sats. A suggestion has been added to the tip.');
-    return;
+if (active_plugin === null) {
+    let minTip = BASE_TIP + (TIP_PER_FILE * files.length);
+
+    if (!estimate && tip_check < minTip) {
+        $('#tip').value = minTip;
+        $('#tip-usd').innerHTML = Number(await satsToDollars($('#tip').value)).toFixed(2);
+        alert('Minimum tipping is ' + minTip + ' sats based on your bulk amount. A suggestion has been added to the tip.');
+        return;
+    }
+} else {
+    let plugin_tip = await active_plugin.instance.tip();
+    let minTip = plugin_tip + (TIP_PER_FILE * files.length);
+
+    if (!estimate && tip_check < minTip) {
+        $('#tip').value = minTip;
+        $('#tip-usd').innerHTML = Number(await satsToDollars($('#tip').value)).toFixed(2);
+        alert('Minimum tipping has been set to ' + minTip + ' sats based on your inscriptions. A suggestion has been added to the tip.');
+        return;
+    }
 }
 
     const KeyPair = cryptoUtils.KeyPair;
